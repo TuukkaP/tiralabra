@@ -13,8 +13,13 @@ public class Node {
     /**
      * Solmun perustus
      */
-
+    private boolean kayty;
+    private boolean nahty;
+    private Node edellinen;
+    
     public Node() {
+        kayty = false;
+        nahty = false;
     }
     
     /**
