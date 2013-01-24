@@ -17,13 +17,22 @@ Opittu:
 Testien tekeminen on turhaa ellei metodi itsessään edes toimi....
 
 Done:
+-Javadoc
 -A*-algoritmin toiminta
 -Kuvan lukeminen verkoksi
 -Verkon piirtäminen kuvaksi
+-Hahmoteltu minimikekoa
+-Testien Junitit luotu
+-Testaus tehty metodien koodauksen ohella (Minkä takia koodissa onkin paljon kommentoituja koodirivejä)
+	-Oikeat koordinaatit ja getterit ja setterit toimii
+	-A*-liikkuu kohti maalipistettä ja löytää sen, joskin reitin pituus on yhä ongelma.
+	-Kuvan piirtäminen pikseleistä toimii 1:1 ja värit toistuvat oikein
+	-Verkon ja solmujen luominen oikeisiin koordinaatteihin toimii
 
 To-do:
 -Saada oikea heuristiikka A* ilman että se kiertäis ihmeellisesti. (Help?)
--Testit
+-Djikstra
+-Junit Testit
 -Saada ajettua jotain loppuun asti ilman nullpointterexceptionia.....
 
 Opittua:
