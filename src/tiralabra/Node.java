@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package tiralabra;
 
 /**
  *
- * Solmuluokka.
+ * A* -solmuluokka.
  */
 public class Node implements Comparable<Node> {
 
@@ -26,7 +23,7 @@ public class Node implements Comparable<Node> {
      *
      * @param x Solmun x-koordinaatit
      * @param y Solmun y-koordinaatit
-     * @param vari Solmunvari
+     * @param maaliSolmu Maalisolmu Astarin heuristiikkaa varten
      */
     public Node(int x, int y, Node maaliSolmu) {
         kayty = false;
@@ -34,7 +31,7 @@ public class Node implements Comparable<Node> {
         edellinen = null;
         this.x = x;
         this.y = y;
-        paino = 1;
+        paino = 2;
         matka = Integer.MAX_VALUE;
         this.maaliSolmu = maaliSolmu;
     }
@@ -42,7 +39,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun määrittäminen maalisolmuksi.
      *
-     * @param maali
+     * @param maali Jos true, solmu on maalisolmu ja vice versa.
      */
     public void setMaali(boolean maali) {
         this.maali = maali;
@@ -78,7 +75,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun painon palauttaminen
      *
-     * @return
+     * @return Solmunpaino
      */
     public int getPaino() {
         return paino;
@@ -87,7 +84,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun x-koordinaatin getteri.
      *
-     * @return
+     * @return x-koordinaatti
      */
     public int getX() {
         return x;
@@ -96,7 +93,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun y-koordinaatin getteri.
      *
-     * @return
+     * @return y-koordinaatti
      */
     public int getY() {
         return y;
@@ -105,25 +102,16 @@ public class Node implements Comparable<Node> {
     /**
      * Onko solmussa jo käyty.
      *
-     * @return
+     * @return Jos true, solmussa on käyty, ja vice versa
      */
     public boolean isKayty() {
         return kayty;
     }
 
     /**
-     * Onko solmu jo nähty (EI OO TARVITTU MISSÄÄ)
-     *
-     * @return
-     */
-    public boolean isNahty() {
-        return nahty;
-    }
-
-    /**
      * Edellisen solmun määrittäminen.
      *
-     * @param edellinen
+     * @param edellinen Edellinen solmu
      */
     public void setEdellinen(Node edellinen) {
         this.edellinen = edellinen;
@@ -132,7 +120,7 @@ public class Node implements Comparable<Node> {
     /**
      * Asettaa solmun käydyksi.
      *
-     * @param kayty
+     * @param kayty Jos true, solmussa on käyty.
      */
     public void setKayty(boolean kayty) {
         this.kayty = kayty;
@@ -141,7 +129,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun painon muuttaminen.
      *
-     * @param paino
+     * @param paino Solmun uusi paino
      */
     public void setPaino(int paino) {
         this.paino = paino;
@@ -150,7 +138,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun x-koordinaatin muuttaminen
      *
-     * @param x
+     * @param x Uusi x-koordinaatti
      */
     public void setX(int x) {
         this.x = x;
@@ -159,7 +147,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun y-koordinaatin muuttaminen.
      *
-     * @param y
+     * @param y Uusi y-koordinaatti
      */
     public void setY(int y) {
         this.y = y;
@@ -168,7 +156,7 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun toStringi.
      *
-     * @return
+     * @return Kirjoitusasu
      */
     @Override
     public String toString() {
@@ -178,8 +166,9 @@ public class Node implements Comparable<Node> {
     /**
      * Solmun vertailu.
      *
-     * @param o
-     * @return
+     * @param o Solmu, johon verrataan.
+     * @return Jos suurempi kuin 0 solmu on suurempi, jos pienempi kuin 0 solmu
+     * on pienempi ja jos 0 solmut ovat samanarvoiset
      */
     @Override
     public int compareTo(Node o) {
@@ -201,16 +190,26 @@ public class Node implements Comparable<Node> {
     /**
      * Onko Solmu maalisolmu.
      *
-     * @return
+     * @return Jos true, solmu on maalisolmu.
      */
     public boolean isMaali() {
         return maali;
     }
 
+    /**
+     * Palauttaa solmuun kuljetun matkan.
+     *
+     * @return Solmuun kuljettu matka.
+     */
     public int getMatka() {
         return matka;
     }
 
+    /**
+     * Muuta solmuun kuljettua matkaa
+     *
+     * @param matka Uusi kuljettu matka
+     */
     public void setMatka(int matka) {
         this.matka = matka;
     }

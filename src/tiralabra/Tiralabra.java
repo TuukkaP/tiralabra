@@ -1,15 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tiralabra;
 
-import java.util.PriorityQueue;
-
 /**
- * Melkonen työmaa
+ * Tiralabran main
  *
- * @author tuukka
+ * @author Tuukka Peuraniemi
  */
 public class Tiralabra {
 
@@ -23,7 +17,7 @@ public class Tiralabra {
     private static Node lahto;
 
     /**
-     * @param args the command line arguments
+     * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
         String kuvanNimi = "kartta2.png";
@@ -31,28 +25,34 @@ public class Tiralabra {
         djikstra();
         kuva = new Kuva(kuvanNimi);
         astar();
+        kuva = new Kuva(kuvanNimi);
+        bellmanFord();
+
     }
 
     /**
      * Djikstran algoritmi
      */
     private static void djikstra() {
+        long startTime = System.currentTimeMillis();
         alusta();
         Node solmu = null;
         while (!keko.isEmpty()) {
             solmu = keko.poll();
-            if (!solmu.isKayty()) {
-//                System.out.println("Solmuun " + solmu + " tultiin solmusta " + solmu.getEdellinen());
+//            if (!solmu.isKayty()) {
             if (solmu.isMaali()) {
-                piirraTieMaaliin(solmu, -1237980, pikselit);
-                System.out.println("Djikstra MAALI, matkaa tuli " + solmu.getMatka() + " tutkittuja solmuja " + laskuri);
+                int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
+                System.out.println("Djikstra, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
                 kuva.tulostaTulokset(pikselit, "TulosDjikstra.png");
                 laskuri = 0;
+                long endTime = System.currentTimeMillis();
+                System.out.println("Djikstralla kesti: " + ((endTime - startTime)) + " ms");
                 return;
             }
+            laskuri++;
             solmu.setKayty(true);
             getNaapurit(keko, solmu, 0, pikselit, maali, kaydyt);
-            }
+//            }
         }
         System.out.println("Ei ratkaisua");
         kuva.tulostaTulokset(pikselit, "TulosDjikstra.png");
@@ -62,30 +62,71 @@ public class Tiralabra {
      * A* -algoritmi
      */
     private static void astar() {
+        long startTime = System.currentTimeMillis();
         alusta();
         Node solmu = null;
         while (!keko.isEmpty()) {
             solmu = keko.poll();
 //            if (!solmu.isKayty()) {
-                
-//                System.out.println("Solmuun " + solmu + " tultiin solmusta " + solmu.getEdellinen());
-                if (solmu.isMaali()) {
-                    piirraTieMaaliin(solmu, -1237980, pikselit);
-                    System.out.println("Astar, matkaa tuli " + solmu.getMatka() + " tutkittuja solmuja " + laskuri);
-                    kuva.tulostaTulokset(pikselit, "TulosAstar.png");
-                    laskuri = 0;
-                    return;
-                }
-                solmu.setKayty(true);
-                getNaapurit(keko, solmu, 1, pikselit, maali, kaydyt);
+            if (solmu.isMaali()) {
+                int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
+                System.out.println("Astar, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
+                kuva.tulostaTulokset(pikselit, "TulosAstar.png");
+                laskuri = 0;
+                long endTime = System.currentTimeMillis();
+                System.out.println("Astarilla kesti: " + ((endTime - startTime)) + " ms");
+                return;
+            }
+            laskuri++;
+            solmu.setKayty(true);
+            getNaapurit(keko, solmu, 1, pikselit, maali, kaydyt);
 //            }
         }
         System.out.println("Ei ratkaisua");
         kuva.tulostaTulokset(pikselit, "TulosAstar.png");
     }
 
+    /**
+     * Bellman-Fordin algoritmi
+     */
     public static void bellmanFord() {
-        
+        long startTime = System.currentTimeMillis();
+        alusta();
+        int solmujenMaara = 0;
+        for (int i = 0; i < pikselit.length; i++) {
+            for (int j = 0; j < pikselit[0].length; j++) {
+                if (pikselit[i][j] != -16777216) {
+                    solmujenMaara++;
+                    kaydyt[i][j] = new NodeBF(j, i, null);
+                }
+            }
+        }
+        System.out.println(solmujenMaara);
+        Node solmu = null;
+        while (solmujenMaara > 0) {
+            solmu = keko.poll();
+            if (!solmu.isKayty()) {
+                laskuri++;
+                solmu.setKayty(true);
+                getNaapurit(keko, solmu, 2, pikselit, kaydyt[kuva.getMaaliY()][kuva.getMaaliX()], kaydyt);
+                solmujenMaara--;
+            }
+
+        }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Bellman-Fordilla kesti: " + ((endTime - startTime)) + " ms");
+        int matka = 0;
+        Node prev = kaydyt[kuva.getMaaliY()][kuva.getMaaliX()];
+        while (true) {
+            pikselit[prev.getY()][prev.getX()] = -1237980;
+            matka++;
+            prev = prev.getEdellinen();
+            if (prev.getX() == kuva.getLahtoX() && prev.getX() == kuva.getLahtoX()) {
+                break;
+            }
+        }
+        System.out.println("BF, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
+        kuva.tulostaTulokset(pikselit, "TulosBF.png");
     }
 
     /**
@@ -93,6 +134,10 @@ public class Tiralabra {
      *
      * @param keko Keko mihin naapurit lisätään
      * @param solmu Solmu, jonka naapurit haetaan.
+     * @param tyyppi Metodi, josta getNaapurit-metodia kutsutaan
+     * @param pikselit Pikselimatriisi
+     * @param maali Maalisolmu
+     * @param kaydyt Matriisi, jossa solmut ovat.
      */
     public static <T extends Node> void getNaapurit(MinKeko keko, T solmu, int tyyppi, int[][] pikselit, T maali, Node[][] kaydyt) {
         int x = solmu.getX() - 1;
@@ -104,19 +149,24 @@ public class Tiralabra {
                     if (tyyppi == 1 && kaydyt[y + i][x + j] == null) {
                         naapuri = new Node(x + j, y + i, maali);
                         kaydyt[y + i][x + j] = naapuri;
-                        laskuri++;
                     } else if (tyyppi == 0 && kaydyt[y + i][x + j] == null) {
                         naapuri = new NodeD(x + j, y + i, maali);
                         kaydyt[y + i][x + j] = naapuri;
-                        laskuri++;
+                    } else if (tyyppi == 2) {
+                        naapuri = kaydyt[y + i][x + j];
                     } else {
                         naapuri = kaydyt[y + i][x + j];
+                    }
+                    if ((i == 0 && j == 0) || (i == 0 && j == 2) || (i == 2 && j == 0) || (i == 2 && j == 2)) {
+                        // Kulmittain on helpompi kulkea
+                        naapuri.setPaino(3);
                     }
                     pikselit[y + i][x + j] = -3584;
                     if ((solmu.getMatka() + naapuri.getPaino()) < naapuri.getMatka()) {
                         naapuri.setMatka(solmu.getMatka() + naapuri.getPaino());
                         naapuri.setEdellinen(solmu);
                         keko.add(naapuri);
+//                        laskuri++;
                     }
                 }
             }
@@ -126,18 +176,23 @@ public class Tiralabra {
     /**
      * Määrittää reitin värin ja muokkaa ne verkosta.
      *
+     * @param prev Solmu, josta lähdetään liikkeelle
      * @param vari Reitin väri
+     * @param pikselit Pikselimatriisi
      */
-    public static void piirraTieMaaliin(Node prev, int vari, int[][] pikselit) {
+    public static int piirraTieMaaliin(Node prev, int vari, int[][] pikselit) {
         int matka = 0;
         while (prev.getEdellinen() != null) {
             pikselit[prev.getY()][prev.getX()] = vari;
             prev = prev.getEdellinen();
             matka++;
         }
-        System.out.println(matka);
+        return matka;
     }
 
+    /**
+     * Kekojen ja solmujen alustukset.
+     */
     private static void alusta() {
         pikselit = kuva.getPikselit();
         taulu = new Node[pikselit.length * pikselit[0].length];

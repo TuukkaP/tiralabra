@@ -18,22 +18,13 @@ public class MinKeko<T extends Node> {
     /**
      * Keon konstruktori
      *
-     * @param verkko
+     * @param t Taulukko, josta tehdään keko.
      */
     public MinKeko(T[] t) {
         keko = t;
         keonKoko = 0;
     }
 
-    /**
-     * Keon sisältävän taulukon kasvattaminen
-     */
-//    private void kasvata(T[] taulu) {
-//        T[] tmp;
-//        tmp = new T[taulukko.length*taulukko.length];
-//        System.arraycopy(taulukko, 0, tmp, 0, taulukko.length);
-//        taulukko = tmp;
-//    }
     /**
      * Solmun vasemman lapsen paikan määrittäminen
      *
@@ -76,6 +67,11 @@ public class MinKeko<T extends Node> {
         return false;
     }
 
+    /**
+     * Vaihda solmujen A ja B paikkaa keossa.
+     * @param a Solmu A
+     * @param b Solmu B
+     */
     private void swap(int a, int b) {
         T temp = keko[a];
         keko[a] = keko[b];
@@ -83,20 +79,7 @@ public class MinKeko<T extends Node> {
     }
 
     /**
-     * HeapUp
-     *
-     * @param paikka
-     */
-//    private void keossaYlos(int paikka) {
-//
-//        while (paikka > 1 && keko[paikka].compareTo(keko[vanhempi(paikka)]) < 0) {
-//            swap(paikka, vanhempi(paikka));
-//            paikka = vanhempi(paikka);
-//        }
-//
-//    }
-    /**
-     * HeapDown
+     * Kun keosta poistetaan solmu, haetaan sen paikalle oikea solmu.
      *
      * @param paikka
      */
@@ -141,18 +124,12 @@ public class MinKeko<T extends Node> {
             swap(vanhempi(i), i);
             i = vanhempi(i);
         }
-//        if (keonKoko == 20) {
-//            for (int x = 1; x <= keonKoko; x++) {
-//                System.out.println(x +" : " +keko[x].toString() + ", ");
-//            }
-//            System.exit(0);
-//        }
     }
 
     /**
      * Pienimmän solmun palautttaminen
      *
-     * @return
+     * @return Keon pienin solmu eli minimikeon ensimmäinen solmu.
      */
     public T poll() {
         T pop = keko[1];
@@ -166,7 +143,7 @@ public class MinKeko<T extends Node> {
     /**
      * Keon toStringi
      *
-     * @return
+     * @return Keon kirjoitusasu
      */
     @Override
     public String toString() {
@@ -179,7 +156,7 @@ public class MinKeko<T extends Node> {
     /**
      * Palauttaa keon koon.
      *
-     * @return
+     * @return Keonkoko
      */
     public int getKeonKoko() {
         return keonKoko;

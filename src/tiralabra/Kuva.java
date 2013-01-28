@@ -26,9 +26,9 @@ public class Kuva {
     private int[][] pikselit;
 
     /**
-     * Kuvan piirtäminen annetusta verkosta.
+     * Pikseleiden RGB määrittäminen annetusta tiedostosta sekä maali- ja lähtösolmujen määritys.
      *
-     * @param verkko
+     * @param tiedosto Tiedoston nimi
      */
     public Kuva(String tiedosto) {        
         BufferedImage kuva = null;
@@ -59,15 +59,24 @@ public class Kuva {
         }
     }
 
+    /**
+     * Palauttaa int[][] matriisin pikseleistä.
+     * @return Pikselimatriisi
+     */
     public int[][] getPikselit() {
         return pikselit;
     }
 
-    public void tulostaTulokset(int[][] pikselitB, String tiedosto) {
-        BufferedImage tulos = new BufferedImage(pikselitB[0].length, pikselitB.length, BufferedImage.TYPE_INT_ARGB);
-        for (int i = 0; i < pikselitB.length; i++) {
-            for (int j = 0; j < pikselitB[i].length; j++) {
-                tulos.setRGB(j, i, pikselitB[i][j]);
+    /**
+     * Luo kuvan annetusta pikselimatriisista.
+     * @param pikselit Pikselimatriisi RGB väreistä
+     * @param tiedosto Luotavan kuvatiedoston nimi
+     */
+    public void tulostaTulokset(int[][] pikselit, String tiedosto) {
+        BufferedImage tulos = new BufferedImage(pikselit[0].length, pikselit.length, BufferedImage.TYPE_INT_ARGB);
+        for (int i = 0; i < pikselit.length; i++) {
+            for (int j = 0; j < pikselit[i].length; j++) {
+                tulos.setRGB(j, i, pikselit[i][j]);
             }
         }
         try {
@@ -77,18 +86,31 @@ public class Kuva {
         }
     }
 
+    /**
+     * Palauttaa lähtöpisteen x-koordinaatin.
+     * @return x-koordinaatti
+     */
     public int getLahtoX() {
         return lahtoX;
     }
-
+    /**
+     * Palauttaa lähtöpisteen y-koordinaatin.
+     * @return y-koordinaatti
+     */
     public int getLahtoY() {
         return lahtoY;
     }
-
+    /**
+     * Palauttaa maalipisteen x-koordinaatin.
+     * @return x-koordinaatti
+     */
     public int getMaaliX() {
         return maaliX;
     }
-
+    /**
+     * Palauttaa maalipisteen y-koordinaatin.
+     * @return y-koordinaatti
+     */
     public int getMaaliY() {
         return maaliY;
     }
