@@ -20,7 +20,7 @@ public class Tiralabra {
      * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
-        String kuvanNimi = "kartta2.png";
+        String kuvanNimi = "kartta3.png";
         kuva = new Kuva(kuvanNimi);
         djikstra();
         kuva = new Kuva(kuvanNimi);
@@ -103,15 +103,14 @@ public class Tiralabra {
         }
         System.out.println(solmujenMaara);
         Node solmu = null;
-        while (solmujenMaara > 0) {
+        while (!keko.isEmpty()) {
             solmu = keko.poll();
-            if (!solmu.isKayty()) {
+            if (!solmu.isKayty() && !solmu.isMaali()) {
                 laskuri++;
-                solmu.setKayty(true);
-                getNaapurit(keko, solmu, 2, pikselit, kaydyt[kuva.getMaaliY()][kuva.getMaaliX()], kaydyt);
-                solmujenMaara--;
+                getNaapurit(keko, solmu, 2, pikselit, null, kaydyt);
             }
-
+            solmu.setKayty(true);
+            solmujenMaara--;
         }
         long endTime = System.currentTimeMillis();
         System.out.println("Bellman-Fordilla kesti: " + ((endTime - startTime)) + " ms");
@@ -121,7 +120,7 @@ public class Tiralabra {
             pikselit[prev.getY()][prev.getX()] = -1237980;
             matka++;
             prev = prev.getEdellinen();
-            if (prev.getX() == kuva.getLahtoX() && prev.getX() == kuva.getLahtoX()) {
+            if ((prev.getX() == kuva.getLahtoX() && prev.getX() == kuva.getLahtoX())) {
                 break;
             }
         }
@@ -166,7 +165,6 @@ public class Tiralabra {
                         naapuri.setMatka(solmu.getMatka() + naapuri.getPaino());
                         naapuri.setEdellinen(solmu);
                         keko.add(naapuri);
-//                        laskuri++;
                     }
                 }
             }
