@@ -20,7 +20,7 @@ public class Tiralabra {
      * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
-        String kuvanNimi = "kartta3.png";
+        String kuvanNimi = "testiKuva.png";
         kuva = new Kuva(kuvanNimi);
         djikstra();
         kuva = new Kuva(kuvanNimi);
@@ -39,23 +39,25 @@ public class Tiralabra {
         Node solmu = null;
         while (!keko.isEmpty()) {
             solmu = keko.poll();
-//            if (!solmu.isKayty()) {
-            if (solmu.isMaali()) {
-                int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
-                System.out.println("Djikstra, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
-                kuva.tulostaTulokset(pikselit, "TulosDjikstra.png");
-                laskuri = 0;
-                long endTime = System.currentTimeMillis();
-                System.out.println("Djikstralla kesti: " + ((endTime - startTime)) + " ms");
-                return;
+            if (!solmu.isKayty()) {
+                if (solmu.isMaali()) {
+                    long endTime = System.currentTimeMillis();
+                    System.out.println("Djikstralla kesti: " + ((endTime - startTime)) + " ms");
+                    break;
+                }
+                laskuri++;
+                solmu.setKayty(true);
+                getNaapurit(keko, solmu, 0, pikselit, maali, kaydyt);
             }
-            laskuri++;
-            solmu.setKayty(true);
-            getNaapurit(keko, solmu, 0, pikselit, maali, kaydyt);
-//            }
         }
-        System.out.println("Ei ratkaisua");
+        if (keko.isEmpty()) {
+            System.out.println("Ei ratkaisua");
+        }
         kuva.tulostaTulokset(pikselit, "TulosDjikstra.png");
+        int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
+        System.out.println("Djikstra, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri + ", maalisolmun painotettu matka " + maali.getMatka());
+        kuva.tulostaTulokset(pikselit, "TulosDjikstra.png");
+        laskuri = 0;
     }
 
     /**
@@ -67,20 +69,20 @@ public class Tiralabra {
         Node solmu = null;
         while (!keko.isEmpty()) {
             solmu = keko.poll();
-//            if (!solmu.isKayty()) {
-            if (solmu.isMaali()) {
-                int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
-                System.out.println("Astar, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
-                kuva.tulostaTulokset(pikselit, "TulosAstar.png");
-                laskuri = 0;
-                long endTime = System.currentTimeMillis();
-                System.out.println("Astarilla kesti: " + ((endTime - startTime)) + " ms");
-                return;
+            if (!solmu.isKayty()) {
+                if (solmu.isMaali()) {
+                    long endTime = System.currentTimeMillis();
+                    System.out.println("Astarilla kesti: " + ((endTime - startTime)) + " ms");
+                    int matka = piirraTieMaaliin(solmu, -1237980, pikselit);
+                    System.out.println("Astar, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri + ", maalisolmun painotettu matka " + maali.getMatka());
+                    kuva.tulostaTulokset(pikselit, "TulosAstar.png");
+                    laskuri = 0;
+                    return;
+                }
+                laskuri++;
+                solmu.setKayty(true);
+                getNaapurit(keko, solmu, 1, pikselit, maali, kaydyt);
             }
-            laskuri++;
-            solmu.setKayty(true);
-            getNaapurit(keko, solmu, 1, pikselit, maali, kaydyt);
-//            }
         }
         System.out.println("Ei ratkaisua");
         kuva.tulostaTulokset(pikselit, "TulosAstar.png");
@@ -92,25 +94,21 @@ public class Tiralabra {
     public static void bellmanFord() {
         long startTime = System.currentTimeMillis();
         alusta();
-        int solmujenMaara = 0;
         for (int i = 0; i < pikselit.length; i++) {
             for (int j = 0; j < pikselit[0].length; j++) {
                 if (pikselit[i][j] != -16777216) {
-                    solmujenMaara++;
-                    kaydyt[i][j] = new NodeBF(j, i, null);
+                    kaydyt[i][j] = new NodeD(j, i, null);
                 }
             }
         }
-        System.out.println(solmujenMaara);
         Node solmu = null;
         while (!keko.isEmpty()) {
             solmu = keko.poll();
-            if (!solmu.isKayty() && !solmu.isMaali()) {
+            if (!solmu.isKayty()) {
+                solmu.setKayty(true);
                 laskuri++;
                 getNaapurit(keko, solmu, 2, pikselit, null, kaydyt);
             }
-            solmu.setKayty(true);
-            solmujenMaara--;
         }
         long endTime = System.currentTimeMillis();
         System.out.println("Bellman-Fordilla kesti: " + ((endTime - startTime)) + " ms");
@@ -120,11 +118,11 @@ public class Tiralabra {
             pikselit[prev.getY()][prev.getX()] = -1237980;
             matka++;
             prev = prev.getEdellinen();
-            if ((prev.getX() == kuva.getLahtoX() && prev.getX() == kuva.getLahtoX())) {
+            if ((prev.getX() == kuva.getLahtoX() && prev.getY() == kuva.getLahtoY())) {
                 break;
             }
         }
-        System.out.println("BF, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri);
+        System.out.println("BF, matkaa tuli " + matka + " tutkittuja solmuja " + laskuri + ", maalisolmun painotettu matka " + kaydyt[kuva.getMaaliY()][kuva.getMaaliX()].getMatka());
         kuva.tulostaTulokset(pikselit, "TulosBF.png");
     }
 
@@ -151,8 +149,6 @@ public class Tiralabra {
                     } else if (tyyppi == 0 && kaydyt[y + i][x + j] == null) {
                         naapuri = new NodeD(x + j, y + i, maali);
                         kaydyt[y + i][x + j] = naapuri;
-                    } else if (tyyppi == 2) {
-                        naapuri = kaydyt[y + i][x + j];
                     } else {
                         naapuri = kaydyt[y + i][x + j];
                     }
