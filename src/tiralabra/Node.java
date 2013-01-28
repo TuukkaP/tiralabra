@@ -18,44 +18,8 @@ public class Node implements Comparable<Node> {
     private int y;
     private boolean lahto;
     private boolean maali;
-    private int vari;
-    private Node maaliSolmu;
-
-    /**
-     * Värigetteri
-     *
-     * @return Palauttaa solmua edustavan pikselin värin.
-     */
-    public int getVari() {
-        return vari;
-    }
-
-    /**
-     * Solmun konstruktori
-     *
-     * @param x Solmun x-koordinaatit
-     * @param y Solmun y-koordinaatit
-     * @param vari Solmunvari
-     * @param maali Maalisolmu
-     */
-    public Node(int x, int y, int vari, Node maali) {
-        kayty = false;
-        nahty = false;
-        edellinen = null;
-        this.x = x;
-        this.y = y;
-        this.vari = vari;
-        maaliSolmu = maali;
-    }
-
-    /**
-     * Solmun värin muuttaminen
-     *
-     * @param vari Haluttu väri kokonaisluku RGB:nä
-     */
-    public void setVari(int vari) {
-        this.vari = vari;
-    }
+    public Node maaliSolmu;
+    private int matka;
 
     /**
      * Solmun konstruktori
@@ -64,14 +28,15 @@ public class Node implements Comparable<Node> {
      * @param y Solmun y-koordinaatit
      * @param vari Solmunvari
      */
-    public Node(int x, int y, int vari) {
+    public Node(int x, int y, Node maaliSolmu) {
         kayty = false;
         nahty = false;
         edellinen = null;
         this.x = x;
         this.y = y;
-        this.vari = vari;
-        paino = Integer.MAX_VALUE;
+        paino = 1;
+        matka = Integer.MAX_VALUE;
+        this.maaliSolmu = maaliSolmu;
     }
 
     /**
@@ -139,7 +104,8 @@ public class Node implements Comparable<Node> {
 
     /**
      * Onko solmussa jo käyty.
-     * @return 
+     *
+     * @return
      */
     public boolean isKayty() {
         return kayty;
@@ -147,7 +113,8 @@ public class Node implements Comparable<Node> {
 
     /**
      * Onko solmu jo nähty (EI OO TARVITTU MISSÄÄ)
-     * @return 
+     *
+     * @return
      */
     public boolean isNahty() {
         return nahty;
@@ -155,7 +122,8 @@ public class Node implements Comparable<Node> {
 
     /**
      * Edellisen solmun määrittäminen.
-     * @param edellinen 
+     *
+     * @param edellinen
      */
     public void setEdellinen(Node edellinen) {
         this.edellinen = edellinen;
@@ -163,23 +131,17 @@ public class Node implements Comparable<Node> {
 
     /**
      * Asettaa solmun käydyksi.
-     * @param kayty 
+     *
+     * @param kayty
      */
     public void setKayty(boolean kayty) {
         this.kayty = kayty;
     }
 
     /**
-     * Määrittää solmun nähdyksi
-     * @param nahty 
-     */
-    public void setNahty(boolean nahty) {
-        this.nahty = nahty;
-    }
-
-    /**
      * Solmun painon muuttaminen.
-     * @param paino 
+     *
+     * @param paino
      */
     public void setPaino(int paino) {
         this.paino = paino;
@@ -187,7 +149,8 @@ public class Node implements Comparable<Node> {
 
     /**
      * Solmun x-koordinaatin muuttaminen
-     * @param x 
+     *
+     * @param x
      */
     public void setX(int x) {
         this.x = x;
@@ -195,7 +158,8 @@ public class Node implements Comparable<Node> {
 
     /**
      * Solmun y-koordinaatin muuttaminen.
-     * @param y 
+     *
+     * @param y
      */
     public void setY(int y) {
         this.y = y;
@@ -203,26 +167,28 @@ public class Node implements Comparable<Node> {
 
     /**
      * Solmun toStringi.
-     * @return 
+     *
+     * @return
      */
     @Override
     public String toString() {
-        return "Solmu X[" + x + "]Y[" + y + "]";
+        return "Solmu X:[" + x + "] Y:[" + y + "] etäisyys maalisolmuun " + (int) ((heuristiikka(maaliSolmu) + getMatka()));
     }
 
     /**
      * Solmun vertailu.
+     *
      * @param o
-     * @return 
+     * @return
      */
     @Override
     public int compareTo(Node o) {
-//        System.out.println("Lähtösolmu "+ this + " ja sen etäisyys maaliin" +heuristiikka(maaliSolmu) + " Verrokkisolmu " + o + " ja sen etäisyys maaliin on " +  o.heuristiikka(maaliSolmu));
-        return (int) Math.round((heuristiikka(maaliSolmu)) - (o.heuristiikka(maaliSolmu)));
+        return (int) ((heuristiikka(maaliSolmu) + getMatka()) - (o.heuristiikka(maaliSolmu) + o.getMatka()));
     }
 
     /**
      * Solmun vertailussa käytettävä heuristiikka.
+     *
      * @param solmu Verrattava solmu
      * @return Palauttaa solmun etäisyyden verrattavaan solmuun
      */
@@ -234,9 +200,18 @@ public class Node implements Comparable<Node> {
 
     /**
      * Onko Solmu maalisolmu.
-     * @return 
+     *
+     * @return
      */
     public boolean isMaali() {
         return maali;
+    }
+
+    public int getMatka() {
+        return matka;
+    }
+
+    public void setMatka(int matka) {
+        this.matka = matka;
     }
 }

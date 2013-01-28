@@ -9,33 +9,31 @@ package tiralabra;
  * Tämä luokka ei ole vielä käytössä vaan se on vasta luonnosteluvaiheessa.
  * Seuraa ensi viikolla.
  */
-public class MinKeko {
+public class MinKeko<T extends Node> {
 
     private static int aloitusKoko = 8;
-    private static Node[] taulukko;
+    private T[] keko;
     private int keonKoko;
-    private Verkko verkko;
 
     /**
      * Keon konstruktori
      *
      * @param verkko
      */
-    public MinKeko(Verkko verkko) {
-        taulukko = new Node[aloitusKoko];
+    public MinKeko(T[] t) {
+        keko = t;
         keonKoko = 0;
-        this.verkko = verkko;
     }
 
     /**
      * Keon sisältävän taulukon kasvattaminen
      */
-    private static void kasvata() {
-        Node[] tmp = new Node[taulukko.length * 2];
-        System.arraycopy(taulukko, 0, tmp, 0, taulukko.length);
-        taulukko = tmp;
-    }
-
+//    private void kasvata(T[] taulu) {
+//        T[] tmp;
+//        tmp = new T[taulukko.length*taulukko.length];
+//        System.arraycopy(taulukko, 0, tmp, 0, taulukko.length);
+//        taulukko = tmp;
+//    }
     /**
      * Solmun vasemman lapsen paikan määrittäminen
      *
@@ -67,77 +65,67 @@ public class MinKeko {
     }
 
     /**
+     * Onko keko tyhjä.
+     *
+     * @return True jos tyhjä, False jos ei
+     */
+    public boolean isEmpty() {
+        if (keonKoko == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private void swap(int a, int b) {
+        T temp = keko[a];
+        keko[a] = keko[b];
+        keko[b] = temp;
+    }
+
+    /**
      * HeapUp
      *
      * @param paikka
      */
-    private void keossaYlos(int paikka) {
-        if (paikka <= 1) {
-            return;
-        }
-        while (paikka > 1 && taulukko[paikka].compareTo(taulukko[vanhempi(paikka)]) <= 0) {
-            Node temp = taulukko[vanhempi(paikka)];
-            taulukko[vanhempi(paikka)] = taulukko[paikka];
-            taulukko[paikka] = temp;
-            paikka = vanhempi(paikka);
-        }
-    }
-
+//    private void keossaYlos(int paikka) {
+//
+//        while (paikka > 1 && keko[paikka].compareTo(keko[vanhempi(paikka)]) < 0) {
+//            swap(paikka, vanhempi(paikka));
+//            paikka = vanhempi(paikka);
+//        }
+//
+//    }
     /**
      * HeapDown
      *
      * @param paikka
      */
     private void keossaAlas(int paikka) {
-        int pienempi;
-        while (oikea(paikka) < keonKoko) {
+        int pienempi = paikka;
+        if (keonKoko == 0) {
+            return;
+        }
+        while (true) {
             int vasen = vasen(paikka);
             int oikea = oikea(paikka);
-            if (taulukko[vasen] != null && taulukko[oikea] != null) {
-                if (taulukko[vasen].compareTo(taulukko[oikea]) < 0) {
+            if (vasen >= keonKoko && oikea >= keonKoko) {
+                return;
+            }
+            if (keko[vasen] != null && keko[oikea] != null) {
+                if (keko[vasen].compareTo(keko[oikea]) <= 0) {
                     pienempi = vasen;
                 } else {
                     pienempi = oikea;
                 }
-            } else if (taulukko[vasen] != null && taulukko[oikea] == null) {
+            } else if (keko[vasen] != null && keko[oikea] == null) {
                 pienempi = vasen;
-            } else if (taulukko[vasen] == null && taulukko[oikea] != null) {
+            } else if (keko[vasen] == null && keko[oikea] != null) {
                 pienempi = oikea;
-            } else {
-                return;
             }
-            Node temp = taulukko[paikka];
-            taulukko[paikka] = taulukko[pienempi];
-            taulukko[pienempi] = temp;
+            swap(paikka, pienempi);
             paikka = pienempi;
         }
-    }
 
-    /**
-     * Vaiko heapify?
-     *
-     * @param paikka
-     */
-    private void heapify(int paikka) {
-        int pienin;
-        int vasen = vasen(paikka);
-        int oikea = oikea(paikka);
-
-        if (vasen < keonKoko && taulukko[vasen].compareTo(taulukko[paikka]) <= 0) {
-            pienin = vasen;
-        } else {
-            pienin = paikka;
-        }
-
-        if (oikea < keonKoko && taulukko[oikea].compareTo(taulukko[pienin]) <= 0) {
-            pienin = oikea;
-        }
-        if (pienin != paikka) {
-            Node temp = taulukko[paikka];
-            taulukko[paikka] = taulukko[pienin];
-            taulukko[pienin] = temp;
-            heapify(pienin);
-        }
     }
 
     /**
@@ -145,22 +133,20 @@ public class MinKeko {
      *
      * @param solmu
      */
-    public void lisaa(Node solmu) {
-        if (solmu.getVari() == -16777216 || solmu.isKayty()) {
-            return;
-        }
+    public void add(T solmu) {
         keonKoko++;
-        if (keonKoko >= taulukko.length) {
-            kasvata();
-        }
+        keko[keonKoko] = solmu;
         int i = keonKoko;
-        solmu.setMaaliSolmu(verkko.getMaali());
-        System.out.println(solmu);
-        while (i > 1 && taulukko[vanhempi(i)].compareTo(solmu) >= 0) {
-            taulukko[i] = taulukko[vanhempi(i)];
+        while (i > 1 && keko[vanhempi(i)].compareTo(keko[i]) >= 0) {
+            swap(vanhempi(i), i);
             i = vanhempi(i);
         }
-        taulukko[i] = solmu;
+//        if (keonKoko == 20) {
+//            for (int x = 1; x <= keonKoko; x++) {
+//                System.out.println(x +" : " +keko[x].toString() + ", ");
+//            }
+//            System.exit(0);
+//        }
     }
 
     /**
@@ -168,14 +154,12 @@ public class MinKeko {
      *
      * @return
      */
-    public Node pop() {
-        if (taulukko[1] == null) {
-            return null;
-        }
-        Node pop = taulukko[1];
+    public T poll() {
+        T pop = keko[1];
+        keko[1] = keko[keonKoko];
+        keko[keonKoko] = null;
         keonKoko--;
-        taulukko[1] = taulukko[keonKoko];
-        heapify(1);
+        keossaAlas(1);
         return pop;
     }
 
@@ -187,7 +171,7 @@ public class MinKeko {
     @Override
     public String toString() {
         for (int i = 1; i <= keonKoko; i++) {
-            System.out.println(taulukko[i].toString() + ", ");
+            System.out.println(keko[i].toString() + ", ");
         }
         return "" + keonKoko;
     }
