@@ -1,4 +1,3 @@
-
 package tiralabra;
 
 /**
@@ -15,7 +14,7 @@ public class Node implements Comparable<Node> {
     private int y;
     private boolean lahto;
     private boolean maali;
-    public Node maaliSolmu;
+    private Node maaliSolmu;
     private int matka;
 
     /**
@@ -52,15 +51,6 @@ public class Node implements Comparable<Node> {
      */
     public void setMaaliSolmu(Node maali) {
         maaliSolmu = maali;
-    }
-
-    /**
-     * Solmun määrittäminen lähtösolmuksi.
-     *
-     * @param lahto
-     */
-    public void setLahto(boolean lahto) {
-        this.lahto = lahto;
     }
 
     /**
@@ -160,7 +150,7 @@ public class Node implements Comparable<Node> {
      */
     @Override
     public String toString() {
-        return "Solmu X:[" + x + "] Y:[" + y + "] etäisyys maalisolmuun " + (int) ((heuristiikka(maaliSolmu) + getMatka()));
+        return "Solmu X:[" + x + "] Y:[" + y + "]";
     }
 
     /**
@@ -212,5 +202,14 @@ public class Node implements Comparable<Node> {
      */
     public void setMatka(int matka) {
         this.matka = matka;
+    }
+
+    /**
+     * Palauttaa maalisolmun.
+     *
+     * @return Maalisolmu
+     */
+    public Node getMaaliSolmu() {
+        return maaliSolmu;
     }
 }

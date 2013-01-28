@@ -117,6 +117,9 @@ public class MinKeko<T extends Node> {
      * @param solmu
      */
     public void add(T solmu) {
+        if (solmu == null) {
+            return;
+        }
         keonKoko++;
         keko[keonKoko] = solmu;
         int i = keonKoko;
@@ -132,6 +135,9 @@ public class MinKeko<T extends Node> {
      * @return Keon pienin solmu eli minimikeon ensimmäinen solmu.
      */
     public T poll() {
+        if  (keonKoko == 0) {
+            return null;
+        }
         T pop = keko[1];
         keko[1] = keko[keonKoko];
         keko[keonKoko] = null;
@@ -147,10 +153,12 @@ public class MinKeko<T extends Node> {
      */
     @Override
     public String toString() {
+        String tuloste = "";
         for (int i = 1; i <= keonKoko; i++) {
-            System.out.println(keko[i].toString() + ", ");
+            tuloste += (keko[i].toString() + ", \n");
         }
-        return "" + keonKoko;
+        tuloste += keonKoko;
+        return tuloste;
     }
 
     /**
