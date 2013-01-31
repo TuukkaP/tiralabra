@@ -37,3 +37,20 @@ To-do:
 
 Opittua:
 -Kuvan lukeminen ja piirtäminen pikseleistä
+
+Viikko 3
+
+Tietorakenteiden säätöä
+
+Done
+-tietorakenteiden hahmottelu
+-algoritmien kikkailu
+
+To-Do
+-Toiminnan tarkistaminen
+-Hienosäätöä
+-Testausta
+
+Kommentti
+En nyt ole vielä ihan varma että onko mun toteutus oikein.
+Tarkoituksena oli tehdä labyrintin lyhimmän reitin etsijä, missä alkupiste on keltainen ja loppu piste on punainen. Musta rajaa esteet.
