@@ -20,7 +20,7 @@ public class Tiralabra {
      * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
-        String kuvanNimi = "testiKuva.png";
+        String kuvanNimi = "kartta4.png";
         kuva = new Kuva(kuvanNimi);
         djikstra();
         kuva = new Kuva(kuvanNimi);
@@ -112,8 +112,8 @@ public class Tiralabra {
         }
         long endTime = System.currentTimeMillis();
         System.out.println("Bellman-Fordilla kesti: " + ((endTime - startTime)) + " ms");
-        int matka = 0;
         Node prev = kaydyt[kuva.getMaaliY()][kuva.getMaaliX()];
+        int matka = 0;
         while (true) {
             pikselit[prev.getY()][prev.getX()] = -1237980;
             matka++;

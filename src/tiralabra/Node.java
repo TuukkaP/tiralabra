@@ -162,7 +162,7 @@ public class Node implements Comparable<Node> {
      */
     @Override
     public int compareTo(Node o) {
-        return (int) ((heuristiikka(maaliSolmu) + getMatka()) - (o.heuristiikka(maaliSolmu) + o.getMatka()));
+        return (int) ((heuristiikka(maaliSolmu)) - (o.heuristiikka(maaliSolmu)));
     }
 
     /**
