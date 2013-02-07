@@ -54,3 +54,11 @@ To-Do
 Kommentti
 En nyt ole vielä ihan varma että onko mun toteutus oikein.
 Tarkoituksena oli tehdä labyrintin lyhimmän reitin etsijä, missä alkupiste on keltainen ja loppu piste on punainen. Musta rajaa esteet.
+
+Viikko 4
+
+Testejä ja suorituskykytestausta.
+Perehtymistä eri tapoihin (microbenchmark etc.) suorittaa suorityskykytestausta.
+Tarkastelun jälkeen, kallistun silti yksinkertaiseen ajanottoon.
+Viime viikkoisten kommenttien odottelua.
+Muutoin ohjelma alkaa olla aika valmis.

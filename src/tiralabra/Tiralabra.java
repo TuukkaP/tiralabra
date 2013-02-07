@@ -20,7 +20,7 @@ public class Tiralabra {
      * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
-        String kuvanNimi = "kartta4.png";
+        String kuvanNimi = "kartta3.png";
         kuva = new Kuva(kuvanNimi);
         djikstra();
         kuva = new Kuva(kuvanNimi);
