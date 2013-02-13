@@ -62,3 +62,10 @@ Perehtymistä eri tapoihin (microbenchmark etc.) suorittaa suorityskykytestausta.
 Tarkastelun jälkeen, kallistun silti yksinkertaiseen ajanottoon.
 Viime viikkoisten kommenttien odottelua.
 Muutoin ohjelma alkaa olla aika valmis.
+
+Viikko 5
+
+Palautus.
+
+Kommentteja:
+Minimikeon toimintaa voisi tehostaa, sen tehokkuus ei ole mielestäni riittävä. Testaus on aina osa-alue jota voisi parantaa.

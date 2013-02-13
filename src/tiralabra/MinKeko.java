@@ -6,13 +6,13 @@ package tiralabra;
 
 /**
  *
- * Tämä luokka ei ole vielä käytössä vaan se on vasta luonnosteluvaiheessa.
- * Seuraa ensi viikolla.
+ * Minimikeko-luokka.
+ * 
  */
 public class MinKeko<T extends Node> {
 
     private static int aloitusKoko = 8;
-    private T[] keko;
+    public T[] keko;
     private int keonKoko;
 
     /**
@@ -80,39 +80,26 @@ public class MinKeko<T extends Node> {
 
     /**
      * Kun keosta poistetaan solmu, haetaan sen paikalle oikea solmu.
-     *
+     * Laskemalla solmua keossa alaspäin eli vaihtamalla pienemmän lapsen kanssa.
+     * 
      * @param paikka
      */
     private void keossaAlas(int paikka) {
         int pienempi = paikka;
-        if (keonKoko == 0) {
-            return;
-        }
         while (true) {
             int vasen = vasen(paikka);
             int oikea = oikea(paikka);
             if (vasen >= keonKoko && oikea >= keonKoko) {
                 return;
             }
-            if (keko[vasen] != null && keko[oikea] != null) {
-                if (keko[vasen].compareTo(keko[oikea]) <= 0) {
-                    pienempi = vasen;
-                } else {
-                    pienempi = oikea;
-                }
-            } else if (keko[vasen] != null && keko[oikea] == null) {
-                pienempi = vasen;
-            } else if (keko[vasen] == null && keko[oikea] != null) {
-                pienempi = oikea;
-            }
+            pienempi = maaritaPienempi(vasen, oikea, pienempi);
             swap(paikka, pienempi);
             paikka = pienempi;
         }
-
     }
 
     /**
-     * Solmun lisääminen kekoon
+     * Solmun lisääminen kekoon. Solmun paikka haetaan etsimällä solmua pienempi vanhempi.
      *
      * @param solmu
      */
@@ -168,5 +155,27 @@ public class MinKeko<T extends Node> {
      */
     public int getKeonKoko() {
         return keonKoko;
+    }
+
+    /**
+     * Maaritellaan kumpi lapsista on pienempi oikea vai vasen.
+     * @param vasen Vasenlapsi
+     * @param oikea Oikealapsi
+     * @param pienempi Palautetaan pienempi
+     * @return Palautetaan pienempi.
+     */
+    private int maaritaPienempi(int vasen, int oikea, int pienempi) {
+        if (keko[vasen] != null && keko[oikea] != null) {
+            if (keko[vasen].compareTo(keko[oikea]) <= 0) {
+                pienempi = vasen;
+            } else {
+                pienempi = oikea;
+            }
+        } else if (keko[vasen] != null && keko[oikea] == null) {
+            pienempi = vasen;
+        } else if (keko[vasen] == null && keko[oikea] != null) {
+            pienempi = oikea;
+        }
+        return pienempi;
     }
 }

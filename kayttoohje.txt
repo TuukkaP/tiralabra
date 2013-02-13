@@ -1,0 +1,25 @@
+Käyttöohje
+----------
+
+
+Kuvalle asetetut rajoitteet:
+
+Kuva on rajattava väh. 2 pikseliä leveällä suorakulmiolla.
+
+Lähtöpiste tulee olla aina samalla värillä (paint keltainen)
+Hue: 38		Red: 255
+Sat: 240	Green: 242
+Lum: 120	Blue: 0
+Kokonaislukuna: -3584
+
+Maalipiste tulee olla aina samalla värillä (paint punainen)
+Hue: 238	Red: 237
+Sat: 205	Green: 28
+Lum: 125	Blue: 36
+Kokonaislukuna: -1237980
+
+Taustavärin tulee olla valkoinen (kokonaisluku: -1).
+
+Kuvan rajaukseen ja labyrinttien tekemiseen tulee käyttää mustaa väriä (kokonaisluku: -16777216).
+
+Kuvissa ei tule käyttää em. värejä enempää.

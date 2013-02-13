@@ -1,0 +1,6 @@
+Testausraportti
+---------------
+
+
+Osa metodien testauksista suoritetaa JUnit-testien avulla, mutta kaikkia metodeja varten ko. tapa ei ollut järkevää.
+Loput metodeista on testattu lukuisten ajojen avulla sekä tulosteita tarkastelemalla. Kuten esim. kuvien lukeminen ja piirtäminen sekä aloitus- ja maalipisteiden olemassaolojen tarkistus. Osa JUnit-testeistä testaa myös useampia metodeja kerrallaan. 
