@@ -4,6 +4,8 @@ Käyttöohje
 
 Kuvalle asetetut rajoitteet:
 
+Tiedostomuoto on aina .png.
+
 Kuva on rajattava väh. 2 pikseliä leveällä suorakulmiolla.
 
 Lähtöpiste tulee olla aina samalla värillä (paint keltainen)
@@ -23,3 +25,5 @@ Taustavärin tulee olla valkoinen (kokonaisluku: -1).
 Kuvan rajaukseen ja labyrinttien tekemiseen tulee käyttää mustaa väriä (kokonaisluku: -16777216).
 
 Kuvissa ei tule käyttää em. värejä enempää.
+
+Kuva annetaan jar-tiedostoa ajettaessa komentoriviparametrina esim. windowsissa itse ajan "java -jar tiralabra.jar kartta3.png".
