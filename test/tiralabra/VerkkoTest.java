@@ -43,6 +43,7 @@ public class VerkkoTest {
     @After
     public void tearDown() {
     }
+
     /**
      * Test of getNaapurit method, of class Verkko.
      */
@@ -92,4 +93,25 @@ public class VerkkoTest {
         assertTrue(djikstra.solmunLapikaynti(alkusolmu));
     }
 
+    /**
+     * Test of solmunLapikaynti method, of class Verkko.
+     */
+    @Test
+    public void testkulkusuunnanKustannus() {
+        NodeD alkusolmu = new NodeD(5, 4, null);
+        djikstra.getNaapurit(alkusolmu);
+        for (int i = 0; i < 4; i++) {
+            Node solmu = djikstra.keko.poll();
+            if ((solmu.getX() == 5 && solmu.getY() == 3) || (solmu.getX() != 5 && solmu.getY() == 4) || (solmu.getX() == 5 && solmu.getY() == 5)) {
+                assertEquals(djikstra.sivuttain, solmu.getPaino());
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            Node solmu = djikstra.keko.poll();
+            if ((solmu.getX() != 5 && solmu.getY() == 3) || (solmu.getX() != 5 && solmu.getY() == 5)) {
+                assertEquals(djikstra.kulmittain, solmu.getPaino());
+            }
+        }
+
+    }
 }

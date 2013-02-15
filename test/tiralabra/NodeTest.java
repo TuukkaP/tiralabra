@@ -178,7 +178,9 @@ public class NodeTest {
     @Test
     public void testCompareTo() {
         solmu1.setMatka(0);
+        solmu1.setPaino(0);
         solmu2.setMatka(0);
+        solmu2.setPaino(0);
         assertEquals(1, solmu1.compareTo(solmu2));
     }
 

@@ -113,7 +113,7 @@ public class MinKekoTest {
         testiSolmu2.setMatka(3);
         keko.add(testiSolmu);
         keko.add(testiSolmu2);
-        String vastaus = testiSolmu2.toString() + ", \n" + testiSolmu.toString() + ", \n" + keko.getKeonKoko() + "";
+        String vastaus = testiSolmu2.toString() + ", "+testiSolmu2.getMatka()+"\n" + testiSolmu.toString() + ", "+testiSolmu.getMatka()+"\n" + keko.getKeonKoko() + "";
         String vastaus2 = keko.toString();
         assertTrue(vastaus2.equalsIgnoreCase(vastaus));
     }

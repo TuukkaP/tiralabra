@@ -8,7 +8,7 @@ package tiralabra;
  *
  * Djikstra algoritmin luokka
  */
-public class Djikstra extends Verkko{
+public class Djikstra extends Verkko {
 
     public Kuva kuva;
 
@@ -21,16 +21,15 @@ public class Djikstra extends Verkko{
         lahto = new NodeD(kuva.getLahtoX(), kuva.getLahtoY(), maali);
         kaydyt[kuva.getLahtoY()][kuva.getLahtoX()] = lahto;
         kaydyt[kuva.getMaaliY()][kuva.getMaaliX()] = maali;
-        lahto.setMatka(0);
         maali.setMaali(true);
     }
-    
+
     /**
-     * Kun maalisolmu löydetään keosta.
+     * Kun maalisolmu löydetään keosta. Djikstrassa algoritmin läpikäyminen voidaan lopettaa, koska jos 
+     *
      * @param solmu Maalisolmu
      * @return Palauttaa true jos tulostukset on tehty.
      */
-
     @Override
     public boolean maalisolmuLoydetty(Node solmu) {
         int matka = piirraTieMaaliin(solmu, -1237980);

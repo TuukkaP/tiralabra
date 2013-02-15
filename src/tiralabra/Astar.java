@@ -22,7 +22,6 @@ public class Astar extends Verkko {
         maali.setMaaliSolmu(maali);
         kaydyt[kuva.getLahtoY()][kuva.getLahtoX()] = lahto;
         kaydyt[kuva.getMaaliY()][kuva.getMaaliX()] = maali;
-        lahto.setMatka(0);
         maali.setMaali(true);
     }
 
@@ -42,6 +41,7 @@ public class Astar extends Verkko {
         /**
      * Ketkä ovat solmun naapureita. Tutkitaan onko naapurit jo luotu (eli ovat
      * kaydyt matriisissa) ja jos ei niin luodaan uusi solmu.
+     * Astarissa luodaan Node-solmuja. Siksi override.
      *
      * @param y Suhteellinen Y-koordinaatti
      * @param i For-loopin y-osa

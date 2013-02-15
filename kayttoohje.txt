@@ -1,10 +1,17 @@
 K‰yttˆohje
 ----------
+----------
 
 
-Kuvalle asetetut rajoitteet:
+Kuva annetaan jar-tiedostoa ajettaessa komentoriviparametrina esim. windowsissa itse ajan "java -jar tiralabra.jar kartta3.png".
+
+Tiedostojen tulee olla samassa kansiossa.
 
 Tiedostomuoto on aina .png.
+
+
+V‰rit
+-----
 
 Kuva on rajattava v‰h. 2 pikseli‰ leve‰ll‰ suorakulmiolla.
 
@@ -26,4 +33,3 @@ Kuvan rajaukseen ja labyrinttien tekemiseen tulee k‰ytt‰‰ mustaa v‰ri‰ (kokonais
 
 Kuvissa ei tule k‰ytt‰‰ em. v‰rej‰ enemp‰‰.
 
-Kuva annetaan jar-tiedostoa ajettaessa komentoriviparametrina esim. windowsissa itse ajan "java -jar tiralabra.jar kartta3.png".

@@ -15,26 +15,28 @@ public class Tiralabra {
     private static MinKeko keko;
     private static Node maali;
     private static Node lahto;
+    private static long startTime;
+    private static long endTime;
 
     /**
      * @param args Komentorivisyötteet
      */
     public static void main(String[] args) {
         String kuvanNimi = args[0];
-        Djikstra djikstra = new Djikstra(kuvanNimi);
-        long startTime = System.currentTimeMillis();
-        djikstra.suorita();
-        long endTime = System.currentTimeMillis();
-        System.out.println("Djikstrassa kesti " + (endTime-startTime) + " ms");
         Astar astar = new Astar(kuvanNimi);
         startTime = System.currentTimeMillis();
         astar.suorita();
         endTime = System.currentTimeMillis();
-        System.out.println("Astar kesti " + (endTime-startTime) + " ms");
+        System.out.println("Astar kesti " + (endTime - startTime) + " ms");
         BellmanFord bf = new BellmanFord(kuvanNimi);
         startTime = System.currentTimeMillis();
         bf.suorita();
         endTime = System.currentTimeMillis();
-        System.out.println("Bellman-Ford kesti " + (endTime-startTime) + " ms");
+        System.out.println("Bellman-Ford kesti " + (endTime - startTime) + " ms");
+        Djikstra djikstra = new Djikstra(kuvanNimi);
+        startTime = System.currentTimeMillis();
+        djikstra.suorita();
+        endTime = System.currentTimeMillis();
+        System.out.println("Djikstrassa kesti " + (endTime - startTime) + " ms");
     }
 }

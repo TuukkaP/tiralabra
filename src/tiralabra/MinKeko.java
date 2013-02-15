@@ -11,7 +11,6 @@ package tiralabra;
  */
 public class MinKeko<T extends Node> {
 
-    private static int aloitusKoko = 8;
     public T[] keko;
     private int keonKoko;
 
@@ -142,7 +141,7 @@ public class MinKeko<T extends Node> {
     public String toString() {
         String tuloste = "";
         for (int i = 1; i <= keonKoko; i++) {
-            tuloste += (keko[i].toString() + ", \n");
+            tuloste += (keko[i].toString() + ", "+ keko[i].getMatka() +"\n");
         }
         tuloste += keonKoko;
         return tuloste;

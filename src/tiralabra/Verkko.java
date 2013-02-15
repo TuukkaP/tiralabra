@@ -18,11 +18,14 @@ public abstract class Verkko {
     public Node lahto;
     public Node naapuri;
     public Node solmu;
+    public int kulmittain = 2;
+    public int sivuttain = 1;
 
     /**
      * Djikstran ja Astarin algoritmin suorittaminen.
      */
     public void suorita() {
+        lahto.setMatka(0);
         keko.add(lahto);
         while (!keko.isEmpty()) {
             solmu = keko.poll();
@@ -62,10 +65,14 @@ public abstract class Verkko {
      * @param vari Reitin väri
      */
     public int piirraTieMaaliin(Node prev, int vari) {
+        prev = kaydyt[maali.getY()][maali.getX()];
         int matka = 0;
-        while (prev.getEdellinen() != null) {
-            pikselit[prev.getY()][prev.getX()] = vari;
+        while (matka <= (pikselit.length * pikselit[0].length)) {
+            pikselit[prev.getY()][prev.getX()] = -1237980;
             prev = prev.getEdellinen();
+            if (prev == null || (prev.getX() == maali.getX() && prev.getY() == maali.getY())) {
+                break;
+            }
             matka++;
         }
         return matka;
@@ -117,7 +124,9 @@ public abstract class Verkko {
      */
     public void kulkusuunnanKustannus(int i, int j) {
         if ((i == 0 && j == 0) || (i == 0 && j == 2) || (i == 2 && j == 0) || (i == 2 && j == 2)) {
-            naapuri.setPaino(3);
+            naapuri.setPaino(kulmittain); // Kulmittain
+        } else {
+            naapuri.setPaino(sivuttain); // Suoraan sivussa
         }
     }
 
