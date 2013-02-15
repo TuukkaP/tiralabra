@@ -45,6 +45,7 @@ public class BellmanFord extends Verkko {
      */
     @Override
     public void suorita() {
+        lahto.setMatka(0);
         keko.add(lahto);
         while (!keko.isEmpty()) {
             solmu = keko.poll();
